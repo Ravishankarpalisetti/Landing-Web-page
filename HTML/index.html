@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTI - Mediators. Opleidingen. Incompany.</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: #f5f5f5;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-text {
+            color: #e6be8a;
+            font-size: 13px;
+            line-height: 1.3;
+        }
+        
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+        
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: #2c4f7c;
+        }
+        
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #2c4f7c;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+        
+        .contact-btn {
+            background: #2c4f7c;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn:hover {
+            background: #1e3a5f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+
+        .welcome-section {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .welcome-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .welcome-section:hover img {
+            transform: scale(1.02);
+        }
+        
+        .welcome-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        .welcome-title {
+            font-size: 48px;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-family: cursive;
+        }
+        
+        .welcome-subtitle {
+            font-size: 16px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -40%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+        
+        .services-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .services-intro {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .services-intro.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .services-intro h2 {
+            color: #2c4f7c;
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .services-intro p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        
+        .service-card {
+            padding: 40px 25px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .service-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .service-card.blue {
+            background: #c9d2db;
+        }
+        
+        .service-card.beige {
+            background: #f3f0e7;
+        }
+        
+        .service-card.pink {
+            background: #eda6a4;
+        }
+        
+        .service-card img {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .service-card h3 {
+            color: #2c4f7c;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .service-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .lees-verder {
+            color: #2c4f7c;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 13px;
+            transition: color 0.3s ease;
+        }
+        
+        .lees-verder:hover {
+            color: #1e3a5f;
+            text-decoration: underline;
+        }
+        
+       
+        .footer {
+            margin-top: 80px;
+            background: #f5f6f7;
+            padding: 36px 20px 16px;
+            font-size: 0.98rem;
+            color: #555;
+        }
+        .footer-container {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .footer-col h4 {
+            color: #233055;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+        .footer-col ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-col ul li {
+            margin-bottom: 8px;
+        }
+        .footer-logo {
+            max-width: 200px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        @media (max-width: 950px) {
+          .flex-row,
+          .columns-row,
+          .footer-container {
+            flex-direction: column;
+            gap: 24px;
+          }
+          .gallery-img {
+              max-width: 94vw;
+            }
+          }
+          .footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background: #f5f6f7;
+            padding: 36px 10px 16px;
+            font-size: 0.98rem;
+            color: #555;
+            z-index: 100;
+            box-shadow: 0 -2px 8px rgba(140,156,172,0.10);
+          }
+          footer button {
+            background: #c7d1d9;   
+            color: white;          
+            border: none;
+          }
+
+
+          body {
+            padding-bottom: 220px;
+          }
+
+        
+        .highlight-cursive {
+            color: #b8956f;
+            font-style: italic;
+            font-family: cursive;
+            font-weight: 500;
+        }
+        
+        .hero {
+            background: #f2f4f5;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 26px;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #333;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .hero h1.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+     
+        .agenda-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .agenda-content {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        
+        .agenda-left {
+            flex: 1;
+        }
+        
+        .agenda-left img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .agenda-left img:hover {
+            transform: scale(1.02);
+        }
+        
+        .agenda-right {
+            flex: 1;
+            position: relative;
+        }
+        
+        .agenda-right h2 {
+            color: #2c4f7c;
+            font-size: 40px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .agenda-subtitle {
+            color: #b8956f;
+            font-size: 18px;
+            margin-bottom: 35px;
+        }
+        
+        .agenda-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .agenda-list li {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            border-left: 3px solid #2c4f7c;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .agenda-list li:hover {
+            background: #f0f8ff;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .agenda-date {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+        
+        .agenda-title {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .agenda-list li::after {
+            content: '→';
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #2c4f7c;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .agenda-list li:hover::after {
+            transform: translateY(-50%) translateX(5px);
+        }
+        
+        .btn-aanmelden {
+            background: #ff9999;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-aanmelden:hover {
+            background: #ff7777;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 153, 153, 0.3);
+        }
+        
+        
+        
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        
+        .training-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .breadcrumb {
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .breadcrumb a {
+            color: #2c4f7c;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb a:hover {
+            color: #1e3a5f;
+            text-decoration: underline;
+        }
+        
+       .section-title {
+    color: #2c4f7c;
+    font-size: 36px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.section-description {
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    font-size: 15px;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+        
+        .training-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .training-card {
+            text-align: center;
+            background: #fff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .training-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .training-card img {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: block;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+        
+        .training-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .training-card h3 {
+            color: #2c4f7c;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .training-card p {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .training-bottom {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .building-image img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .building-image:hover img {
+            transform: scale(1.02);
+        }
+        
+        
+        .testimonial-quote-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .testimonial-quote-section h2 {
+            font-size: 24px;
+            line-height: 1.4;
+            max-width: 700px;
+            margin: 0 auto;
+            color: #333;
+            font-weight: 400;
+            font-style: italic;
+        }
+        
+        .testimonial-quote-section cite {
+            display: block;
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        
+ 
+        .registration-section {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 50px;
+            margin-top: 40px;
+        }
+        
+        .form-column h3 {
+            color: #2c4f7c;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #f9f9f9;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2c4f7c;
+            box-shadow: 0 0 5px rgba(44, 79, 124, 0.3);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .checkbox-group {
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .checkbox-group label {
+            margin: 0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        
+        
+        .testimonial-hero {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+        }
+        
+        .testimonial-hero img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .testimonial-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            max-width: 700px;
+            padding: 0 20px;
+        }
+        
+        .testimonial-overlay blockquote {
+            font-size: 22px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .testimonial-overlay cite {
+            font-size: 16px;
+        }
+        
+      
+        .testimonial-cards {
+            padding: 60px 0;
+            background: #fff;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .testimonial-card {
+            padding: 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            color: #4a4a4a;
+        }
+
+
+        .testimonial-card.first {
+            background-color: #f0ece1; 
+        }
+
+        .testimonial-card.second {
+            background-color: #edf0ed; 
+        }
+
+        .testimonial-card.third {
+            background-color: #f5f6f7;
+        }
+
+        
+        .testimonial-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .testimonial-card blockquote {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .testimonial-card cite {
+            font-weight: bold;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .info-section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .info-content {
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
+        
+        .info-left {
+            flex: 2;
+        }
+        
+        .info-left h2 {
+            color: #2c4f7c;
+            font-size: 30px;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+        
+        .info-left p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .info-left img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .info-left img:hover {
+            transform: scale(1.02);
+        }
+        
+        .info-right {
+            flex: 1;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        
+        .info-right h3 {
+            color: #2c4f7c;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .date-box {
+            background: #f0f8ff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background 0.3s ease;
+        }
+        
+        .date-box:hover {
+            background: #e6f3ff;
+        }
+        
+        .date-box p:first-child {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .date-box p:last-child {
+            color: #666;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .agenda-content,
+            .training-grid,
+            .training-bottom,
+            .form-container,
+            .services-grid,
+            .testimonial-grid,
+            .info-content {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+            
+            .hero h1,
+            .footer-quote h2 {
+                font-size: 20px;
+            }
+            
+            .welcome-title {
+                font-size: 32px;
+            }
+            
+            .decorative-circle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+    <header class="header" id="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="LOGO.png" alt="MTI logo">
+                    <div class="logo-text">
+                        Mediators.<br>
+                        Opleidingen.<br>
+                        Incompany.
+                    </div>
+                </div>
+                <nav class="navigation">
+                    <ul class="nav-menu">
+                        <li><a href="#mediation">Mediation</a></li>
+                        <li><a href="#opleidingen">Opleidingen & trainingen</a></li>
+                        <li><a href="#organisaties">MTI voor organisaties</a></li>
+                        <li><a href="#over">Over MTI</a></li>
+                    </ul>
+                    <button class="contact-btn" onclick="scrollToSection('contact')">Contact met MTI →</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    
+    <section class="welcome-section" id="welcome">
+      <img src="group training photo.png" alt="Welcome group">
+      <div class="welcome-overlay">
+          
+      </div>
+    </section>
+ 
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="services-intro">
+                <h2>Vooruit in gesprek</h2>
+                <p>MTi stelt jou en/of jouw organisatie in staat conflictueuze situaties gezamenlijk op te lossen. Als specialist in opleidingen op gebied van mediationvaardigheden en effectief omgaan met conflictsituaties. Als ervaren, toegankelijke, kundige mediatiors. Ons doel? Een maatschappij waar mensen met elkaar kunnen - en blijven - praten om samen oplossingen te zoeken, ook als het lastig wordt.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card blue">
+                    <img src="Mediatiors.png" alt="Mediation icon">
+                    <h3>Mediatiors</h3>
+                    <p>Carino, Marjanne en Elena zijn ervaren MTi- registermediatiors, gespecialiseerd in vastgelopen situaties binnen- en tussen ondernemingen.</p>
+                    <a href="#mediation" class="lees-verder">Vind een mediator →</a>
+                </div>
+                <div class="service-card beige">
+                    <img src="Opleidengien.png" alt="Education icon">
+                    <h3>Opleidingen</h3>
+                    <p>Carino, Marjanne en Elena zijn ervaren MTi- registermediatiors, gespecialiseerd in vastgelopen situaties binnen- en tussen ondernemingen.</p>
+                    <a href="#opleidingen" class="lees-verder">Kies jouw opleiding uit →</a>
+                </div>
+                <div class="service-card pink">
+                    <img src="Company.png" alt="Company training icon">
+                    <h3>Incompany</h3>
+                    <p>Carino, Marjanne en Elena zijn ervaren MTi- registermediatiors, gespecialiseerd in vastgelopen situaties binnen- en tussen ondernemingen.</p>
+                    <a href="#organisaties" class="lees-verder">Teamtraining binnen uw bedrijf →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section class="hero" id="hero">
+        <div class="container">
+            <h1>Een <span class="highlight-cursive">conflict</span> staat zelden op zichzelf en reikt vaak verder dan de juridische context. Mediation biedt de ruimte op een échte win-winoplossing.</h1>
+        </div>
+    </section>
+
+   
+    <section class="agenda-section" id="agenda">
+        <div class="container">
+            <div class="agenda-content">
+                <div class="agenda-left">
+                    <img src="Agendas.png" alt="Training room">
+                </div>
+                <div class="agenda-right">
+                    <h2>Agenda</h2>
+                    <p class="agenda-subtitle">Binnenkort gaan deze opleidingen van start bij MTi</p>
+                    <ul class="agenda-list">
+                        <li onclick="showDetails('info1')">
+                            <div class="agenda-date">27 november, 9:30 - 10:30 uur</div>
+                            <div class="agenda-title">informatiebijeenkomst Mediation basisopleiding (gratis)</div>
+                        </li>
+                        <li onclick="showDetails('training1')">
+                            <div class="agenda-date">3 december en 7 januari</div>
+                            <div class="agenda-title">2 daagse training Werken met mediationvaardigheden</div>
+                        </li>
+                        <li onclick="showDetails('basis1')">
+                            <div class="agenda-date">13 en 14 januari 2025</div>
+                            <div class="agenda-title">Start blok 1 Mediation basisopleiding</div>
+                        </li>
+                        <li onclick="showDetails('basis2')">
+                            <div class="agenda-date">maart 2025</div>
+                            <div class="agenda-title">Start blok 1 Mediation basisopleiding</div>
+                        </li>
+                        <li onclick="showDetails('basis3')">
+                            <div class="agenda-date">september 2025</div>
+                            <div class="agenda-title">Start blok 1 Mediation basisopleiding</div>
+                        </li>
+                    </ul>
+                    <button class="btn-aanmelden" onclick="scrollToSection('registration')">Aanmelden</button>
+                    <div class="decorative-circle"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+ 
+    <section id="opleidingen" class="training-section">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#welcome">Home</a> > Opleidingen & trainingen
+            </div>
+            <h2 class="section-title">MTi opleidingen en trainingen</h2>
+            <p class="section-description">
+                Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.
+            </p>
+            <p class="section-description">
+                <a href="#" style="color: #2c4f7c; text-decoration: none;">Keuze uit de volgende opleidingen bij MTI</a>
+            </p>
+
+            <div class="training-grid">
+                <div class="training-card" onclick="showTrainingDetails('basis')">
+                    <img src="chat.png" alt="Chat icon">
+                    <h3>Basisopleiding Professionele mediation</h3>
+                    <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                    <a href="#" class="lees-verder">Lees verder →</a>
+                </div>
+                <div class="training-card" onclick="showTrainingDetails('specialisatie')">
+                    <img src="arrow.png" alt="Target icon">
+                    <h3>Mediation specialisatie trainingen</h3>
+                    <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                    <a href="#" class="lees-verder">Lees verder →</a>
+                </div>
+                <div class="training-card" onclick="showTrainingDetails('conflict')">
+                    <img src="hand shake.png" alt="Conversation icon">
+                    <h3>Opleiding tot conflictprofessional</h3>
+                    <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                    <a href="#" class="lees-verder">Lees verder →</a>
+                </div>
+            </div>
+
+            <div class="training-bottom">
+                <div class="training-card" onclick="showTrainingDetails('vaardigheden')">
+                    <img src="chat.png" alt="Group discussion icon">
+                    <h3>Training Mediationvaardigheden</h3>
+                    <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                    <a href="#" class="lees-verder">Lees verder →</a>
+                </div>
+                <div class="training-card" onclick="showTrainingDetails('incompany')">
+                    <img src="meeting.png" alt="Team meeting icon">
+                    <h3>Incompany trainingen</h3>
+                    <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                    <a href="#" class="lees-verder">Lees verder →</a>
+                </div>
+                <div class="building-image">
+                    <img src="house.png" alt="Historic building">
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+    <section class="testimonial-quote-section" id="quote2">
+        <div class="container">
+            <h2>"Stel je open voor deze <span class="highlight-cursive">ervaring</span>, want dat is het! Het is niet zomaar het volgen van een opleiding maar een ervaring die je verandert en als mens rijker maakt en heel veel brengt, mits je durft..."</h2>
+            <cite>A. Inden</cite>
+        </div>
+    </section>
+    <style>
+      .info-left {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .info-left h2 {
+        width: 100%;
+        margin-bottom: 24px;
+      }
+
+      .info-left p {
+        max-width: 600px;
+        margin: 0 auto 20px auto;
+      }
+
+      
+    </style>
+    <section class="info-section" id="info">
+      <div class="container">
+          <div class="info-content">
+              <div class="info-left">
+                  <h2>Informatiebijeenkomst<br>Mediation basisopleiding</h2>
+                  <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                  <p>Onze MTi-erkende opleiding biedt deelnemers een gedegen basis om hun eigen aanpak te ontwikkelen bij het professioneel begeleiden van mensen die zijn vastgelopen in een relatie. Dat kan zijn een zakelijke relatie, een arbeidsrelatie of een privé relatie.</p>
+                  <img src="inform.png" alt="Classroom session">
+              </div>
+              <div class="info-right" style="margin-top: 200px;">
+                  <h3>Eerst beschikbare datum:</h3>
+                  <div class="date-box">
+                      <p>Informatiebijeenkomst Mediation basisopleiding (gratis)</p>
+                      <p>27 november, 9:30 - 10:30 uur</p>
+                      <br>
+                      <a href="#agenda" style="color: #2c4f7c; text-decoration: none; font-size: 13px;" onclick="scrollToSection('agenda')">Naar agenda →</a>
+                  </div>
+                  <button class="btn-aanmelden" onclick="scrollToSection('registration')">Aanmelden</button>
+              </div>
+          </div>
+      </div>
+  </section>
+    
+    
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="#welcome">Home</a> > <a href="#opleidingen">Opleidingen & trainingen</a> > Aanmelden
+            </div>
+            <h2 class="section-title">Aanmelden Mti</h2>
+            <p class="section-description">Meld je hieronder aan voor een van onze opleidingen.</p>
+            
+            <form class="form-container" id="registrationForm" onsubmit="submitForm(event)">
+                <div class="form-column">
+                    <h3>Persoon gegevens</h3>
+                    <div class="form-group">
+                        <label>voornaam</label>
+                        <input type="text" name="voornaam" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Achternaam</label>
+                        <input type="text" name="achternaam" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefoonnummer</label>
+                        <input type="tel" name="telefoon" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="nieuwsbrief" id="nieuwsbrief">
+                        <label for="nieuwsbrief">Meld je aan voor nieuwsbrief en updates</label>
+                    </div>
+                    <div class="form-group">
+                        <label>Werkzaam bij bedrijf ... in functie...</label>
+                        <textarea name="werkzaam" rows="3"></textarea>
+                    </div>
+                    
+                    <h3 style="margin-top: 30px;">Adres</h3>
+                    <div class="form-group">
+                        <label>Straat en huisnummer</label>
+                        <input type="text" name="straat" required>
+                    </div>
+                    <div class="form-group">
+                        <label>toevoeging</label>
+                        <input type="text" name="toevoeging">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Postcode</label>
+                            <input type="text" name="postcode" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Plaats</label>
+                            <input type="text" name="plaats" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Land</label>
+                        <input type="text" name="land" value="Nederland">
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <h3>Opleiding</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="opl1" id="opl1" value="informatiebijeenkomst">
+                        <label for="opl1">Informatiebijeenkomst Mediation basisopleiding, wo 27 november, 9:30-10:30 uur</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="opl2" id="opl2" value="mediationvaardigheden">
+                        <label for="opl2">2 daagse training Mediationvaardigheden - 3 december 2024 en 7 januari 2025</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="opl3" id="opl3" value="basisopleiding">
+                        <label for="opl3">Mediation basisopleiding start 13 januari 2025</label>
+                    </div>
+                </div>
+                
+                <div class="form-column">
+                    <h3>Factuur gegevens</h3>
+                    <div class="form-group">
+                        <label>Bedrijfsnaam</label>
+                        <input type="text" name="bedrijf">
+                    </div>
+                    <div class="form-group">
+                        <label>Afdeling</label>
+                        <input type="text" name="afdeling">
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" name="factuur_email">
+                    </div>
+                    <div class="form-group">
+                      <section <label>Straat en Huisnummer</label>
+                        <input type="text" name="factuur_straat">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Postcode</label>
+                            <input type="text" name="factuur_postcode">
+                        </div> 
+                        <div class="form-group">
+                            <label>Plaats</label>
+                            <input type="text" name="factuur_plaats">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Land</label>
+                        <input type="text" name="factuur_land" value="Nederland">
+                    </div>
+                    
+                    <div class="checkbox-group" style="margin-top: 40px;">
+                        <input type="checkbox" name="akkoord" id="akkoord" required>
+                        <label for="akkoord">Ik ga akkoord met de algemene voorwaarden.</label>
+                    </div>
+                    
+                    <button type="submit" class="btn-aanmelden" style="margin-top: 20px; padding: 15px 30px;">Aanmelden →</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="testimonial-hero" id="testimonials">
+        <img src="anmeldan.png" alt="Hands testimonial">
+        <div class="testimonial-overlay">
+            
+           
+        </div>
+    </section>
+
+    <section class="testimonial-cards">
+        <div class="container">
+            <div class="testimonial-grid">
+                <div class="testimonial-card first">
+                    <blockquote>"Stel je open voor deze ervaring, want dat is het! Het is niet zomaar het volgen van een opleiding maar een ervaring die je verandert en als mens rijker maakt en heel veel brengt, mits je durft..."</blockquote>
+                    <cite>M. Marelis</cite>
+                </div>
+                <div class="testimonial-card second">
+                  <blockquote>"Deze training vormt je als mens! Dat dit een prachtige ervaring geeft, dat je -ook als niet als mediator gaat werken- veel ontwikkeling kan doormaken en effectiever kan handelen en zo jezelf en anderen kunt helpen."</blockquote>
+                  <cite>N. Rutten</cite>
+              </div>
+              <div class="testimonial-card third">
+                  <blockquote>"Deze training vormt je als mens! Dat dit een prachtige ervaring geeft, dat je -ook als niet als mediator gaat werken- veel ontwikkeling kan doormaken en effectiever kan handelen en zo jezelf en anderen kunt helpen."</blockquote>
+                  <cite>N. Rutten</cite>
+              </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <script>
+   
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+       
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.services-intro, .service-card, .footer-quote h2, .hero h1');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+
+
+        function showDetails(itemId) {
+            const details = {
+                'info1': 'Gratis informatiebijeenkomst over onze mediation basisopleiding. Kom kennismaken met de trainers en het programma.',
+                'training1': '2-daagse intensieve training waarin je leert werken met mediationvaardigheden in de praktijk.',
+                'basis1': 'Start van blok 1 van onze erkende mediation basisopleiding. Leer de fundamenten van professionele mediation.',
+                'basis2': 'Nieuwe startdatum voor blok 1 van de mediation basisopleiding in het voorjaar.',
+                'basis3': 'Startdatum voor blok 1 van de mediation basisopleiding in het najaar.'
+            };
+            
+            alert(details[itemId] || 'Meer informatie binnenkort beschikbaar.');
+        }
+
+       
+        function showTrainingDetails(trainingType) {
+            const details = {
+                'basis': 'De basisopleiding Professionele mediation is onze meest uitgebreide opleiding. Je leert alle aspecten van mediation.',
+                'specialisatie': 'Specialisatie trainingen voor ervaren mediators die hun vaardigheden willen uitbreiden.',
+                'conflict': 'Opleiding tot conflictprofessional - leer omgaan met complexe conflictsituaties.',
+                'vaardigheden': 'Praktische training waarin je mediationvaardigheden oefent en verfijnt.',
+                'incompany': 'Op maat gemaakte trainingen voor organisaties die intern hun conflicthantering willen verbeteren.'
+            };
+            
+            alert(details[trainingType] || 'Meer informatie binnenkort beschikbaar.');
+        }
+
+  
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+            
+   
+            const trainingsSelected = formData.getAll('opl1').length + formData.getAll('opl2').length + formData.getAll('opl3').length;
+            
+            if (trainingsSelected === 0) {
+                alert('Selecteer minimaal één opleiding.');
+                return;
+            }
+            
+          
+            alert('Bedankt voor je aanmelding! We nemen binnenkort contact met je op.');
+            
+         
+            event.target.reset();
+        }
+
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        
+        document.querySelectorAll('.lees-verder').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                if (targetId) {
+                    scrollToSection(targetId);
+                }
+            });
+        });
+
+   
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('load', function() {
+                this.style.opacity = '1';
+                this.style.transform = 'scale(1)';
+            });
+            
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            img.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+        
+            setTimeout(animateOnScroll, 100);
+            
+           
+            const serviceCards = document.querySelectorAll('.service-card');
+            serviceCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            });
+      
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+            testimonialCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.15}s`;
+            });
+        });
+    </script>
+<div class="footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <img src="LOGO.png" alt="MTI logo" class="footer-logo">
+    </div>
+    <div class="footer-col">
+      <h4>Opleidingen</h4>
+      <ul>
+        <li>Basisopleiding mediation</li>
+        <li>Opleiding tot conflictprofessional</li>
+        <li>Verdieping mediators</li>
+        <li>In company trainingen</li>
+        <li>Trainingen</li>
+        <li>trainers</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Aanmelden</h4>
+      <ul>
+        <li>Aanmeldan trainingen</li>
+        <li>Startdata en agenda opleidingen</li>
+        <li>Informati en inspiratie bijeenkomst</li>
+      </ul>
+      <h4>Mediation</h4>
+      <ul>
+        <li>Op zoek naar mediator?</li>
+        <li>Voor wie?</li>
+        <li>Team</li>
+        <li>Contact & meer info</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li>Elena: 06-48544752</li>
+        <li>Carine: 06-41328298</li>
+        <li>Marjanne: 06-49374992</li>
+        <li>Toos: 06-22092157</li>
+      </ul>
+      <h4>Adres</h4>
+      Wagenweg 252, Haarlem
+      (allen op afspraak)
+      <li><button class="contact-btn" onclick="scrollToSection('contact')">Contact met MTI →</button></li>
+    </div>
+    
+    
+  </div>
+</div>
+
+</body>
+</html>
